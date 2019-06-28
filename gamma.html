@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </head>
+  <body>
+    <h1>Bin Gamma</h1>
+    <ul class="collection">
+      <li class="collection-item">Buzzer : <span id="bu"></span></li>
+      <li class="collection-item">Carbon Monoxide : <span id="co"></span></li>
+      <li class="collection-item">Fire : <span id="fi"></span></li>
+      <li class="collection-item">Fill Level : <span id="le"></span></li>
+      <li class="collection-item">Latitude : <span id="la"></span></li>
+      <li class="collection-item">Longitude : <span id="lo"></span></li>
+    </ul>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-database.js"></script>
+    <script>
+      var firebaseConfig = {
+        apiKey: " AIzaSyA0t02mgzWOEG1qgaxq5Yz5t4MXXOa65yg",
+        authDomain: "smartbin-976db.firebaseapp.com",
+        databaseURL: "https://smartbin-976db.firebaseio.com",
+        projectId: "smartbin-976db",
+        storageBucket: "smartbin-976db.appspot.com",
+        messagingSenderId: "sender-id",
+        appID: "1:938921995987:web:82681be9e1e4d811",
+      };
+      firebase.initializeApp(firebaseConfig);
+      //          var user = firebase.auth().;
+      //
+      //          if (user) {
+      //            console.log(user);
+      //          } else {
+      //            console.log(user);
+      //          }
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const dbRefObj = firebase.database().ref().child('gamma');
+
+          dbRefObj.on('value',snap =>{
+            document.getElementById('bu').textContent=snap.val().Buzzer;
+            document.getElementById('co').textContent=snap.val().CO;
+            document.getElementById('fi').textContent=snap.val().Fire;
+            document.getElementById('le').textContent=snap.val().Level;
+            document.getElementById('la').textContent=snap.val().lat;
+            document.getElementById('lo').textContent=snap.val().lon;
+          });
+        } else {
+          console.log("error");
+        }
+      });
+    </script>
+  </body>
+</html>
