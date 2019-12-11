@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </head>
+  <body>
+    <br>
+   <div class="container">
+     <fieldset>
+       <div class="row">
+         <div class="input-field col s12">
+           <input id="email" type="email" class="validate">
+           <label for="email">Email</label>
+         </div>
+       </div>
+       <div class="row">
+         <div class="input-field col s12">
+           <input id="password" type="password" class="validate">
+           <label for="password">Password</label>
+         </div>
+       </div>
+     </fieldset>
+    </div>
+    <center> <div class="row">
+      <p>
+        <label>
+          <input type="checkbox" id="term" onclick="document.getElementById('btnon').classList.remove('disabled')">
+          <span>I Accept to all <a href="terms.html"> Terms and Conditions</a></span>
+        </label>
+      </p>
+      </div></center>
+    <center><a href="bin.html" class="btn disabled pulse" id="btnon">Sign In</a>
+      </center>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+    <script>     
+      //firebase content
+      var firebaseConfig = {
+        apiKey: " AIzaSyA0t02mgzWOEG1qgaxq5Yz5t4MXXOa65yg",
+        authDomain: "smartbin-976db.firebaseapp.com",
+        databaseURL: "https://smartbin-976db.firebaseio.com",
+        projectId: "smartbin-976db",
+        storageBucket: "smartbin-976db.appspot.com",
+        messagingSenderId: "sender-id",
+        appID: "1:938921995987:web:82681be9e1e4d811",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const mailfld = document.getElementById('email');
+      const passfld = document.getElementById('password');
+      const btnfld = document.getElementById('btnon');
+
+      btnon.addEventListener('click', e=>{
+        var email = mailfld.value;
+        var password = passfld.value;
+
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+        });
+      });
+
+      // Listening for auth state changes.
+      // [START authstatelistener]
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          window.location.replace('https://smartbin-976db.web.app/bin.html');
+        } else {
+          //window.location.replace('https://smartbin-976db.web.app');
+        }
+      });
+    </script>
+  </body>
+</html>
